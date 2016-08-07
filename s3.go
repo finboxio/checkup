@@ -34,7 +34,6 @@ func (s S3) Store(results []Result) error {
 		return err
 	}
 	svc := newS3(session.New(), &aws.Config{
-		Credentials: credentials.NewStaticCredentials(s.AccessKeyID, s.SecretAccessKey, ""),
 		Region:      &s.Region,
 	})
 	params := &s3.PutObjectInput{
