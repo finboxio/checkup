@@ -15,10 +15,11 @@ import (
 
 // S3 is a way to store checkup results in an S3 bucket.
 type S3 struct {
-	AccessKeyID     string `json:"access_key_id"`
-	SecretAccessKey string `json:"secret_access_key"`
 	Region          string `json:"region,omitempty"`
 	Bucket          string `json:"bucket"`
+	Prefix					string `json:"prefix,omitempty"`
+	AccessKeyID     string `json:"access_key_id,omitempty"`
+	SecretAccessKey string `json:"secret_access_key,omitempty"`
 
 	// Check files older than CheckExpiry will be
 	// deleted on calls to Maintain(). If this is
@@ -38,7 +39,7 @@ func (s S3) Store(results []Result) error {
 	})
 	params := &s3.PutObjectInput{
 		Bucket: &s.Bucket,
-		Key:    GenerateFilename(),
+		Key:    GenerateFilename(s.Prefix),
 		Body:   bytes.NewReader(jsonBytes),
 	}
 	_, err = svc.PutObject(params)
@@ -52,7 +53,6 @@ func (s S3) Maintain() error {
 	}
 
 	svc := newS3(session.New(), &aws.Config{
-		Credentials: credentials.NewStaticCredentials(s.AccessKeyID, s.SecretAccessKey, ""),
 		Region:      &s.Region,
 	})
 
@@ -159,7 +159,6 @@ func (s S3) Provision() (ProvisionInfo, error) {
 
 	// Prepare to talk to S3
 	svcS3 := s3.New(session.New(), &aws.Config{
-		Credentials: credentials.NewStaticCredentials(s.AccessKeyID, s.SecretAccessKey, ""),
 		Region:      &s.Region,
 	})
 
