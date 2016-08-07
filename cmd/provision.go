@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/sourcegraph/checkup"
+	"github.com/finboxio/checkup"
 	"github.com/spf13/cobra"
 )
 
@@ -14,12 +14,12 @@ var provisionCmd = &cobra.Command{
 	Use:   "provision",
 	Short: "Provision a storage service",
 	Long: `Use the provision command to provision storage for your
-check files on any supported provider. Provisioning need 
+check files on any supported provider. Provisioning need
 only be done once per status page. After provisioning,
 you will be provided some credentials; use those to
-configure your status page and/or checker. 
+configure your status page and/or checker.
 
-By default, checkup.json will be loaded and used, if it 
+By default, checkup.json will be loaded and used, if it
 exists in the current working directory. Otherwise, you
 may provision your storage manually according to the
 instructions below.
@@ -32,13 +32,13 @@ PROVIDERS
 
 s3
     Create an IAM user with at least these two permissions:
-    
+
        - arn:aws:iam::aws:policy/IAMFullAccess
        - arn:aws:iam::aws:policy/AmazonS3FullAccess
 
     Then set these env variables:
 
-       - AWS_ACCESS_KEY_ID=<AccessKeyID of user> 
+       - AWS_ACCESS_KEY_ID=<AccessKeyID of user>
        - AWS_SECRET_ACCESS_KEY=<SecretAccessKey of user>
        - AWS_BUCKET_NAME=<unique bucket name>`,
 	Run: func(cmd *cobra.Command, args []string) {
