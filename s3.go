@@ -18,6 +18,7 @@ type S3 struct {
 	Region          string `json:"region,omitempty"`
 	Bucket          string `json:"bucket"`
 	Prefix					string `json:"prefix,omitempty"`
+	Checker 			 	string `json:"checker,omitempty"`
 	AccessKeyID     string `json:"access_key_id,omitempty"`
 	SecretAccessKey string `json:"secret_access_key,omitempty"`
 
@@ -39,7 +40,7 @@ func (s S3) Store(results []Result) error {
 	})
 	params := &s3.PutObjectInput{
 		Bucket: &s.Bucket,
-		Key:    GenerateFilename(s.Prefix),
+		Key:    GenerateFilename(s.Prefix, s.Checker),
 		Body:   bytes.NewReader(jsonBytes),
 	}
 	_, err = svc.PutObject(params)

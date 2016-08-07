@@ -333,7 +333,7 @@ var DefaultConcurrentChecks = 5
 
 // FilenameFormatString is the format string used
 // by GenerateFilename to create a filename.
-const FilenameFormatString = "%s/%d-check.json"
+const FilenameFormatString = "%s/%d-%s-check.json"
 
 // Timestamp returns the UTC Unix timestamp in
 // nanoseconds.
@@ -346,8 +346,8 @@ func Timestamp() int64 {
 // that relies on the filename for retrieval that is
 // sorted by date/timeframe. It returns a string pointer
 // to be used by the AWS SDK...
-func GenerateFilename(prefix string) *string {
-	s := fmt.Sprintf(FilenameFormatString, prefix, Timestamp())
+func GenerateFilename(prefix string, name string) *string {
+	s := fmt.Sprintf(FilenameFormatString, prefix, Timestamp(), name)
 	return &s
 }
 
